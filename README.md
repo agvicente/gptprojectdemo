@@ -1,4 +1,4 @@
 # gptprojectdemo
 
-Nome: Augusto Custódio Vicente\n
+Nome: Augusto Custódio Vicente
 Tema do Projeto: Definir Tema
