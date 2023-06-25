@@ -1,2 +1,4 @@
-package com.agvicente.gptprojectdemo.entities;public class BaseEntity {
+package com.agvicente.gptprojectdemo.entities;
+
+public class BaseEntity {
 }

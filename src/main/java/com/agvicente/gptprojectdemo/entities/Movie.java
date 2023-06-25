@@ -1,16 +1,20 @@
 package com.agvicente.gptprojectdemo.entities;
 
-public class Movie extends Work {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Movie {
 
     private String actor;
     private String actress;
     private String director;
     private String gender;
     private String synopsis;
+    @Id
+    private Long id;
 
     public Movie() { }
-
-
 
     public String getActor() {
         return actor;
@@ -52,14 +56,11 @@ public class Movie extends Work {
         this.synopsis = synopsis;
     }
 
-    @Override
-    public String getOutputChat() {
-        return getSynopsis();
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Override
-    public String getInputChat() {
-        return "Generate a movie synopsis based on de given data: "
-                + "Actor: "+ getActor() + "Actress: " +getActress() + "Gender: "+ getGender();
+    public Long getId() {
+        return id;
     }
 }
