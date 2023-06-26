@@ -2,48 +2,43 @@ package com.agvicente.gptprojectdemo.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name = "TB_USER")
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name")
+    private Long id;
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "phone")
-    private String phone;
+    @OneToMany(mappedBy = "sender")
+    private Collection<Message> messages;
 
-    @Column(name = "password")
-    private String passord;
+    @OneToMany(mappedBy = "user")
+    private Collection<Conversation> conversations;
 
-    public User(){
+    public User() {}
 
-    }
-
-    public User(long id, String name, String email, String phone, String passord) {
+    public User(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.phone = phone;
-        this.passord = passord;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    @Override
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -62,32 +57,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public Collection<Message> getMessages() {
+        return messages;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassord() {
-        return passord;
-    }
-
-    public void setPassord(String passord) {
-        this.passord = passord;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public Collection<Conversation> getConversations() {
+        return conversations;
     }
 }
