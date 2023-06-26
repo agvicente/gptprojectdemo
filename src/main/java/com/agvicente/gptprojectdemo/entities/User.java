@@ -1,7 +1,8 @@
 package com.agvicente.gptprojectdemo.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "TB_USER")
@@ -15,6 +16,12 @@ public class User extends BaseEntity {
 
     @Column(name = "EMAIL")
     private String email;
+
+    @OneToMany(mappedBy = "sender")
+    private Collection<Message> messages;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Conversation> conversations;
 
     public User() {}
 
@@ -48,5 +55,13 @@ public class User extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    public Collection<Conversation> getConversations() {
+        return conversations;
     }
 }

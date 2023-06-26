@@ -1,6 +1,10 @@
 package com.agvicente.gptprojectdemo.config;
 
+import com.agvicente.gptprojectdemo.entities.Conversation;
+import com.agvicente.gptprojectdemo.entities.Message;
 import com.agvicente.gptprojectdemo.entities.User;
+import com.agvicente.gptprojectdemo.repositories.ConversationRepository;
+import com.agvicente.gptprojectdemo.repositories.MessageRepository;
 import com.agvicente.gptprojectdemo.repositories.UserRepository;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -24,11 +28,31 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MessageRepository messageRepository;
+
+    @Autowired
+    private ConversationRepository conversationRepository;
+
+
     @Override
     public void run(String... args) throws Exception {
         User u1 = new User(null, "Maria", "maria@gmail.com");
-        User u2 = new User(null, "Alex", "alex@gmail.com");
-        userRepository.saveAll(Arrays.asList(u1, u2));
+        userRepository.save(u1);
+
+        Conversation c = new Conversation(null, null, u1);
+
+        conversationRepository.save(c);
+
+        Message m1 = new Message(null, "assistant", "Teste u1 123", u1, c);
+        Message m2 = new Message(null, "user", "Teste u2 456", u1, c);
+        Message m3 = new Message(null, "assistant", "Teste u1 789", u1, c);
+        Message m4 = new Message(null, "user", "Teste u2 10 11 12", u1, c);
+        messageRepository.saveAll(Arrays.asList(m1, m2, m3, m4));
+
+
+
+
     }
 //    @Override
 //    public void run(String... args) throws Exception {
