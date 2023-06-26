@@ -2,6 +2,7 @@ package com.agvicente.gptprojectdemo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,8 +14,8 @@ public class Conversation extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "conversation")
-    private Collection<Message> messages;
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
+    private Collection<Message> messages = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "ID_USER")

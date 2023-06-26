@@ -1,10 +1,13 @@
 package com.agvicente.gptprojectdemo.entities;
 
+import com.theokanning.openai.completion.chat.ChatMessage;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "TB_MESSAGE")
-public class Message extends BaseEntity{
+public class Message extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +16,11 @@ public class Message extends BaseEntity{
     @Column(name = "ROLE")
     private String role;
 
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", length = 500)
     private String content;
+
+    @Column(name = "DATE")
+    private Date date;
 
     @ManyToOne(optional = false)
     @JoinColumn(columnDefinition = "ID_USER")
@@ -66,5 +72,13 @@ public class Message extends BaseEntity{
 
     public void setSender(User sender) {
         this.sender = sender;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }
