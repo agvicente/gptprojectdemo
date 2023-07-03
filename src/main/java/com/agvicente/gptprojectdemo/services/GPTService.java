@@ -1,27 +1,37 @@
 package com.agvicente.gptprojectdemo.services;
 
-import com.theokanning.openai.completion.chat.ChatCompletionChoice;
-import com.theokanning.openai.completion.chat.ChatCompletionRequest;
-import com.theokanning.openai.completion.chat.ChatMessage;
-import com.theokanning.openai.service.OpenAiService;
+import com.agvicente.gptprojectdemo.adapters.ChatMessageAdapter;
+import com.agvicente.gptprojectdemo.config.Configuration;
+import com.agvicente.gptprojectdemo.entities.Conversation;
+import com.agvicente.gptprojectdemo.entities.Message;
+import com.agvicente.gptprojectdemo.repositories.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
+import javax.swing.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class GPTService {
 
-        public ChatMessage getAnswerFrom (List<ChatMessage> messages) {
+    @Autowired
+    private Configuration config;
 
-        OpenAiService service = new OpenAiService("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", Duration.ofSeconds(60));
-        ChatCompletionRequest request = ChatCompletionRequest.builder()
-                .model("gpt-3.5-turbo")
-                .messages(messages)
-                .n(1)
-                .stream(false)
-                .build();
-        ChatCompletionChoice choice = service.createChatCompletion(request).getChoices().get(0);
-        return choice.getMessage();
+    @Autowired
+    private ConversationService conversationService;
+
+    private Message getAnswerFrom (List<Message> messages) {
+       return ChatMessageAdapter.getAnswerFrom(config,
+                ChatMessageAdapter.getChatCompletionRequest(config, messages));
     }
+
+    public Conversation sendConfigMessage(){
+        Conversation conversation = conversationService.saveNewConversation();
+        conversation = conversationService.saveConfigMessage(conversation, config);
+        Message message = getAnswerFrom(conversation.getMessages().stream().toList());
+        conversation = conversationService.saveMessageOn(conversation, message);
+        return conversation;
+    }
+
 }

@@ -17,11 +17,11 @@ public class User extends BaseEntity {
     @Column(name = "EMAIL")
     private String email;
 
-    @OneToMany(mappedBy = "sender")
-    private Collection<Message> messages;
+//    @OneToMany(mappedBy = "sender")
+//    private Collection<Message> messages;
 
-    @OneToMany(mappedBy = "user")
-    private Collection<Conversation> conversations;
+//    @OneToMany(mappedBy = "user")
+//    private Collection<Conversation> conversations;
 
     public User() {}
 
@@ -57,11 +57,11 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-    public Collection<Message> getMessages() {
-        return messages;
-    }
-
-    public Collection<Conversation> getConversations() {
-        return conversations;
-    }
+//    public Collection<Message> getMessages() {
+//        return messages;
+//    }
+//
+//    public Collection<Conversation> getConversations() {
+//        return conversations;
+//    }
 }

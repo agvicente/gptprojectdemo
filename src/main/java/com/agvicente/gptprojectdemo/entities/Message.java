@@ -1,6 +1,7 @@
 package com.agvicente.gptprojectdemo.entities;
 
-import com.theokanning.openai.completion.chat.ChatMessage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -22,11 +23,12 @@ public class Message extends BaseEntity {
     @Column(name = "DATE")
     private Date date;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(columnDefinition = "ID_USER")
-    private User sender;
+//    @ManyToOne(optional = true)
+//    @JoinColumn(columnDefinition = "ID_USER")
+//    private User sender;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CONVERSATION")
     private Conversation conversation;
 
@@ -37,11 +39,11 @@ public class Message extends BaseEntity {
 
     public Message() {}
 
-    public Message(Long id, String role, String content, User sender, Conversation conversation) {
+    public Message(Long id, String role, String content,/* User sender,*/ Conversation conversation) {
         this.id = id;
         this.role = role;
         this.content = content;
-        this.sender = sender;
+//        this.sender = sender;
         this.conversation = conversation;
     }
 
@@ -66,19 +68,28 @@ public class Message extends BaseEntity {
         this.content = content;
     }
 
-    public User getSender() {
-        return sender;
-    }
+//    public User getSender() {
+//        return sender;
+//    }
+//
+//    public void setSender(User sender) {
+//        this.sender = sender;
+//    }
 
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
+    @JsonIgnore
     public Conversation getConversation() {
         return conversation;
     }
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
