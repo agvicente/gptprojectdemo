@@ -63,11 +63,11 @@ public class Configuration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        u1 = new User(null, "Augusto", "augusto@gmail.com");
-        userRepository.save(u1);
-
-        c = new Conversation(null, null, u1);
-        conversationRepository.save(c);
+//        u1 = new User(null, "Augusto", "augusto@gmail.com");
+//        userRepository.save(u1);
+//
+//        c = new Conversation(null, null, u);
+//        conversationRepository.save(c);
     }
 
 
