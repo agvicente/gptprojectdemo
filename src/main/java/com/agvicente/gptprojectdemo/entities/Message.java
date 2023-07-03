@@ -1,6 +1,5 @@
 package com.agvicente.gptprojectdemo.entities;
 
-import com.theokanning.openai.completion.chat.ChatMessage;
 import jakarta.persistence.*;
 
 import java.util.Date;
