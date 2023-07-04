@@ -6,7 +6,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "TB_USER")
-public class User extends BaseEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,10 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
