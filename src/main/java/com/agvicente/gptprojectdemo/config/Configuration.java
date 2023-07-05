@@ -45,6 +45,9 @@ public class Configuration implements CommandLineRunner {
     @Value(value = "${chat.message.config.feedback}")
     private String chatMessageFeedback;
 
+    @Value(value = "${chat.message.config.generate-prompt}")
+    private String chatMessageGeneratePrompt;
+
     private Map<InteractionTypeEnum, String> configMessages;
 
     public String getOpenAiKey() {
@@ -76,6 +79,7 @@ public class Configuration implements CommandLineRunner {
         configMessages.put(InteractionTypeEnum.MEASURES,chatMessageMeasures);
         configMessages.put(InteractionTypeEnum.STYLE, chatMessageStyle);
         configMessages.put(InteractionTypeEnum.FEEDBACK, chatMessageFeedback);
+        configMessages.put(InteractionTypeEnum.GENERATE_PROMPT, chatMessageGeneratePrompt);
         return Collections.unmodifiableMap(configMessages);
     }
 }
