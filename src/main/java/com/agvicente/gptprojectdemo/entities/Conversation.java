@@ -19,16 +19,11 @@ public class Conversation{
     @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
     private Collection<Message> messages = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "ID_USER")
-//    private User user;
-
     public Conversation() {}
 
-    public Conversation(Long id, Collection<Message> messages/*, User user*/) {
+    public Conversation(Long id, Collection<Message> messages) {
         this.id = id;
         this.messages = messages;
-//        this.user = user;
     }
 
 

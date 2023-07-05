@@ -29,11 +29,17 @@ public class ConversationResources {
 
     @PostMapping(value = "/chat")
     public ResponseEntity<ConversationDTO> initChatConversation(){
+        /**
+         * Autenticacação
+         */
         ConversationDTO conversationDTO = gptService.sendInitMessage();
         return ResponseEntity.ok().body(conversationDTO);
     }
     @PostMapping(value = "/chat/{idConversation}")
     public ResponseEntity<ConversationDTO> getAnswerFromChat(@NotNull @PathVariable Long idConversation, @NotNull @RequestBody ConversationDTO conversationDTO){
+        /**
+         * Autorização
+         */
 
         ConversationDTO _conversationDTO = null;
         try {
@@ -48,7 +54,9 @@ public class ConversationResources {
 
     @PostMapping(value = "/chat/prompt/{idConversation}")
     public ResponseEntity<PromptDTO> generatePrompt(@NotNull @PathVariable Long idConversation){
-
+        /**
+         * Autorização
+         */
         PromptDTO promptDTO = null;
         try {
             promptDTO = gptService.getPromptFromConversation(idConversation);
