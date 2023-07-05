@@ -40,7 +40,6 @@ public class ConversationResources {
         /**
          * Autorização
          */
-
         ConversationDTO _conversationDTO = null;
         try {
             _conversationDTO = gptService.sendUserMessageAndGetAnswer(idConversation,
@@ -61,7 +60,7 @@ public class ConversationResources {
         try {
             promptDTO = gptService.getPromptFromConversation(idConversation);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok().body(promptDTO);
     }
