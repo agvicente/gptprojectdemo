@@ -16,13 +16,16 @@ public enum InteractionTypeEnum {
 
     private int code;
     private String description;
+
     private InteractionTypeEnum(int code, String description) {
         this.code = code;
         this.description = description;
     }
+
     public String getDescription() {
         return description;
     }
+
     public int getCode() {
         return code;
     }
