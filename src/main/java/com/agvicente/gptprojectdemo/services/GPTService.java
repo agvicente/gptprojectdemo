@@ -27,6 +27,9 @@ public class GPTService {
     private ConversationService conversationService;
 
     private Message getAnswerFrom (List<Message> messages) {
+        /**
+         * Camada de resiliência para se der time out ele refazer a pergunta para o chat
+         */
        return ChatMessageAdapter.getAnswerFrom(config,
                 ChatMessageAdapter.getChatCompletionRequest(config, messages));
     }
@@ -42,6 +45,11 @@ public class GPTService {
     }
 
     public ConversationDTO sendUserMessageAndGetAnswer(Long idConversation, InteractionTypeEnum interactionType, Collection<Message> messages) throws Exception {
+        /**
+         * Não permitir que salve a mensagem e mande o próximo interaction type caso o usuário não retorne o que
+         * o chat precisa
+         */
+
         Conversation conversation = conversationService.getConversationById(idConversation);
         Message userMessage = getMessageByRole(messages, ChatMessageAdapter.ROLE_USER);
         String systemMessageContent = config.getConfigMessages().get(interactionType);

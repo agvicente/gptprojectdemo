@@ -5,6 +5,9 @@ import java.util.Arrays;
 
 public enum InteractionTypeEnum {
 
+    /**
+     * A ideia era criar uma máquina de estados finitos para gerenciar este fluxo
+     */
     INIT_CONVERSATION(1,"init-conversation"),
     T_SHIRT(2, "t-shirt"),
     PANTS(3, "pants"),
