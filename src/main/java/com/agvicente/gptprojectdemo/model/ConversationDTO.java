@@ -17,9 +17,10 @@ public class ConversationDTO {
 
     private Collection<Message> messages;
 
-    public static ConversationDTO conversationToConversationDTO(Conversation conversation){
+    public static ConversationDTO conversationToConversationDTO(Conversation conversation, String interactionType){
         ConversationDTO conversationDTO = new ConversationDTO();
         conversationDTO.setId(conversation.getId());
+        conversationDTO.setInteractionType(interactionType);
         conversationDTO.setMessages(conversation.getMessages()
                 .stream()
                 .filter(m -> !m.getRole().equals(ChatMessageAdapter.ROLE_SYSTEM))

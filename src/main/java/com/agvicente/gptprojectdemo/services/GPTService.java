@@ -5,12 +5,14 @@ import com.agvicente.gptprojectdemo.config.Configuration;
 import com.agvicente.gptprojectdemo.entities.Conversation;
 import com.agvicente.gptprojectdemo.entities.Message;
 import com.agvicente.gptprojectdemo.model.ConversationDTO;
+import com.agvicente.gptprojectdemo.model.PromptDTO;
 import com.agvicente.gptprojectdemo.model.enums.InteractionTypeEnum;
 import com.agvicente.gptprojectdemo.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +36,8 @@ public class GPTService {
         conversation = conversationService.saveConfigMessageOn(InteractionTypeEnum.INIT_CONVERSATION, conversation, config);
         Message message = getAnswerFrom(conversation.getMessages().stream().toList());
         conversation = conversationService.saveMessageOn(conversation, message);
-        ConversationDTO conversationDTO = ConversationDTO.conversationToConversationDTO(conversation);
+        ConversationDTO conversationDTO = ConversationDTO.conversationToConversationDTO(conversation,
+                InteractionTypeEnum.getByCode(InteractionTypeEnum.INIT_CONVERSATION.getCode() + 1).getDescription());
         return conversationDTO;
     }
 
@@ -46,8 +49,23 @@ public class GPTService {
         conversation = conversationService.saveMessagesOn(conversation, List.of(systemMessage, userMessage));
         Message answer = getAnswerFrom(conversation.getMessages().stream().toList());
         conversation = conversationService.saveMessageOn(conversation, answer);
-        ConversationDTO conversationDTO = ConversationDTO.conversationToConversationDTO(conversation);
+        ConversationDTO conversationDTO = ConversationDTO.conversationToConversationDTO(conversation,
+                InteractionTypeEnum.getByCode(interactionType.getCode() + 1).getDescription());
         return conversationDTO;
+    }
+
+    public PromptDTO getPromptFromConversation(Long idConversation) throws Exception {
+        Conversation conversation = conversationService.getConversationById(idConversation);
+        List<Message> messages = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        sb.append(config.getConfigMessages().get(InteractionTypeEnum.GENERATE_PROMPT))
+                .append(" ")
+                .append(conversation.toString());
+        Message requestPrompt =  MessageService.createMessage(ChatMessageAdapter.ROLE_SYSTEM, sb.toString());
+        Message answer = getAnswerFrom(List.of(requestPrompt));
+        conversation = conversationService.saveMessageOn(conversation, answer);
+        PromptDTO promptDTO = PromptDTO.getPromptDTO(conversation, answer.getContent());
+        return promptDTO;
     }
 
     private Message getMessageByRole(Collection<Message> messages, String role){

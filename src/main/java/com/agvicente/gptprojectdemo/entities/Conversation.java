@@ -60,4 +60,11 @@ public class Conversation{
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "messages=" + messages +
+                '}';
+    }
 }
