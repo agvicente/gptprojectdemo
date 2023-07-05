@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "TB_MESSAGE")
-public class Message extends BaseEntity {
+public class Message{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,37 +18,29 @@ public class Message extends BaseEntity {
     @Column(name = "ROLE")
     private String role;
 
-    @Column(name = "CONTENT", length = 500)
+    @Column(name = "CONTENT", length = 5000)
     private String content;
 
     @Column(name = "DATE")
     private Date date;
 
-//    @ManyToOne(optional = true)
-//    @JoinColumn(columnDefinition = "ID_USER")
-//    private User sender;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CONVERSATION")
     private Conversation conversation;
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
     public Message() {}
 
-    public Message(Long id, String role, String content,/* User sender,*/ Conversation conversation) {
+    public Message(Long id, String role, String content, Conversation conversation) {
         this.id = id;
         this.role = role;
         this.content = content;
-//        this.sender = sender;
         this.conversation = conversation;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -68,13 +61,6 @@ public class Message extends BaseEntity {
         this.content = content;
     }
 
-//    public User getSender() {
-//        return sender;
-//    }
-//
-//    public void setSender(User sender) {
-//        this.sender = sender;
-//    }
 
     @JsonIgnore
     public Conversation getConversation() {
@@ -91,5 +77,18 @@ public class Message extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

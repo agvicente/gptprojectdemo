@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "TB_CONVERSATION")
-public class Conversation extends BaseEntity{
+public class Conversation{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +31,11 @@ public class Conversation extends BaseEntity{
 //        this.user = user;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -48,15 +48,16 @@ public class Conversation extends BaseEntity{
         this.messages = messages;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUsers(User user) {
-//        this.user = user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Conversation that = (Conversation) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
